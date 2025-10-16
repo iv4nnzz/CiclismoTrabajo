@@ -20,4 +20,25 @@ public class Competencia {
         this.equipos = new ArrayList<>();
     }
 
+    public String getNombreEvento() { return nombreEvento; }
+    public void setNombreEvento(String nombreEvento) { this.nombreEvento = nombreEvento; }
+
+    public List<Equipo> getEquipos() { return equipos; }
+
+    public void agregarEquipo(Equipo equipo) {
+        equipos.add(equipo);
+    }
+
+    public String generarReporte() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Reporte de la competencia: ").append(nombreEvento).append("\n\n");
+        if (equipos.isEmpty()) {
+            sb.append("No hay equipos registrados.\n");
+        } else {
+            for (Equipo e : equipos) {
+                sb.append(e.obtenerDatosEquipo()).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
