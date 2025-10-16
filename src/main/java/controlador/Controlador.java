@@ -88,4 +88,58 @@ public class Controlador {
         competencia.getEquipos().get(idx).agregarCompetidor(c);
         vista.mostrarMensaje("Competidor agregado al equipo " + competencia.getEquipos().get(idx).getNombre());
     }
+
+    private void manejarActualizarPuntos() {
+        if (competencia.getEquipos().isEmpty()) {
+            vista.mostrarMensaje("No hay equipos.");
+            return;
+        }
+
+        String lista = vista.elegirEquipoTexto(competencia.getEquipos());
+        String sel = vista.pedirTexto("Ingrese el índice del equipo:\n" + lista);
+        if (sel == null) { vista.mostrarMensaje("Cancelado."); return; }
+
+        int idx;
+        try {
+            idx = Integer.parseInt(sel);
+            if (idx < 0 || idx >= competencia.getEquipos().size()) { vista.mostrarMensaje("Índice inválido."); return; }
+        } catch (Exception ex) { vista.mostrarMensaje("Índice inválido."); return; }
+
+        Equipo equipo = competencia.getEquipos().get(idx);
+        if (equipo.getCompetidores().isEmpty()) {
+            vista.mostrarMensaje("El equipo no tiene competidores.");
+            return;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < equipo.getCompetidores().size(); i++) {
+            sb.append(i).append(". ").append(equipo.getCompetidores().get(i).getNombre()).append("\n");
+        }
+        String selComp = vista.pedirTexto("Seleccione competidor por índice:\n" + sb.toString());
+        if (selComp == null) { vista.mostrarMensaje("Cancelado."); return; }
+        int idxComp;
+        try {
+            idxComp = Integer.parseInt(selComp);
+            if (idxComp < 0 || idxComp >= equipo.getCompetidores().size()) { vista.mostrarMensaje("Índice inválido."); return; }
+        } catch (Exception ex) { vista.mostrarMensaje("Índice inválido."); return; }
+
+        int puntos = pedirEntero("Puntos obtenidos por el competidor (entero):");
+
+        String mostrar = vista.pedirTexto("¿Mostrar detalle de la actualización? (s/n):");
+        boolean mostrarDetalle = mostrar != null && mostrar.trim().equalsIgnoreCase("s");
+
+        Competidor c = equipo.getCompetidores().get(idxComp);
+        if (mostrarDetalle) {
+            c.actualizarPuntos(puntos, true);
+        } else {
+            c.actualizarPuntos(puntos);
+        }
+
+        competencia.actualizarRankingsGlobal();
+
+        vista.mostrarMensaje("Puntos actualizados.\nCompetidor: " + c.getNombre()
+                + "\nNuevo ranking: " + c.getRankingMundial() + ", Puntos: " + c.getPuntos());
+    }
+
 }
+
