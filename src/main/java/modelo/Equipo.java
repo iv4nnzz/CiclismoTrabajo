@@ -38,4 +38,17 @@ public class Equipo {
         Competidor c = new Competidor(nombre, edad, pais, ranking, estatura, peso);
         competidores.add(c);
     }
+
+    public String obtenerDatosEquipo() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Equipo: ").append(nombre).append(" (").append(pais).append(")\n");
+        if (competidores.isEmpty()) {
+            sb.append("  No tiene competidores aún.\n");
+        } else {
+            for (Competidor c : competidores) {
+                sb.append("  - ").append(c.obtenerDatos(true)).append("\n");
+            }
+        }
+        return sb.toString();
+    }
 }
