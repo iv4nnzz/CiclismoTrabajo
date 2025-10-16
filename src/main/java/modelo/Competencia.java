@@ -9,6 +9,8 @@ package modelo;
  * @author 9spot
  */
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class Competencia {
@@ -40,5 +42,34 @@ public class Competencia {
             }
         }
         return sb.toString();
+    }
+    
+    public void actualizarRankingsGlobal() {
+        List<Competidor> todos = new ArrayList<>();
+        for (Equipo e : equipos) {
+            todos.addAll(e.getCompetidores());
+        }
+
+        Collections.sort(todos, new Comparator<Competidor>() {
+            @Override
+            public int compare(Competidor o1, Competidor o2) {
+                return Integer.compare(o2.getPuntos(), o1.getPuntos());
+            }
+        });
+
+        int indice = 0;
+        int rankingActual = 0;
+        Integer puntosPrev = null;
+
+        for (Competidor c : todos) {
+            indice++;
+            if (puntosPrev != null && c.getPuntos() == puntosPrev) {
+                c.setRankingMundial(rankingActual);
+            } else {
+                rankingActual = indice;
+                c.setRankingMundial(rankingActual);
+            }
+            puntosPrev = c.getPuntos();
+        }
     }
 }
