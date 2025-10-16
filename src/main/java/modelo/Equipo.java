@@ -38,5 +38,4 @@ public class Equipo {
         Competidor c = new Competidor(nombre, edad, pais, ranking, estatura, peso);
         competidores.add(c);
     }
-
 }
