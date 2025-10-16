@@ -141,5 +141,38 @@ public class Controlador {
                 + "\nNuevo ranking: " + c.getRankingMundial() + ", Puntos: " + c.getPuntos());
     }
 
-}
+    private void manejarFinalizarEvento() {
+        competencia.actualizarRankingsGlobal();
+        vista.mostrarMensaje("Evento finalizado. Rankings recalculados globalmente.");
+    }
 
+    private void manejarGenerarReporte() {
+        String reporte = competencia.generarReporte();
+        vista.mostrarMensaje(reporte);
+    }
+
+    private void manejarMostrarCompetidoresEquipo() {
+        if (competencia.getEquipos().isEmpty()) {
+            vista.mostrarMensaje("No hay equipos registrados.");
+            return;
+        }
+        String lista = vista.elegirEquipoTexto(competencia.getEquipos());
+        String sel = vista.pedirTexto("Ingrese el índice del equipo para ver sus competidores:\n" + lista);
+        if (sel == null) { vista.mostrarMensaje("Cancelado."); return; }
+        int idx;
+        try {
+            idx = Integer.parseInt(sel);
+            if (idx < 0 || idx >= competencia.getEquipos().size()) {
+                vista.mostrarMensaje("Índice inválido.");
+                return;
+            }
+        } catch (Exception ex) {
+            vista.mostrarMensaje("Índice inválido.");
+            return;
+        }
+
+        String detalles = competencia.getEquipos().get(idx).obtenerDatosEquipo();
+        vista.mostrarMensaje(detalles);
+    }
+    
+}
