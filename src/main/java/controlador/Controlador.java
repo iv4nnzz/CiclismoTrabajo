@@ -25,7 +25,6 @@ public class Controlador {
         while (seguir) {
             int opcion = vista.mostrarMenu();
 
-            // Usamos IF encadenados (if opcion == 1, if opcion == 2, ...) como pediste
             if (opcion == 1) {
                 manejarAgregarEquipo();
             } else if (opcion == 2) {
@@ -54,5 +53,39 @@ public class Controlador {
         Equipo e = new Equipo(nombre.trim(), pais.trim());
         competencia.agregarEquipo(e);
         vista.mostrarMensaje("Equipo agregado: " + nombre);
+    }
+
+    private void manejarAgregarCompetidor() {
+        if (competencia.getEquipos().isEmpty()) {
+            vista.mostrarMensaje("No hay equipos. Primero agregue un equipo.");
+            return;
+        }
+        String lista = vista.elegirEquipoTexto(competencia.getEquipos());
+        String sel = vista.pedirTexto("Ingrese el índice del equipo:\n" + lista);
+        if (sel == null) { vista.mostrarMensaje("Cancelado."); return; }
+        int idx;
+        try {
+            idx = Integer.parseInt(sel);
+            if (idx < 0 || idx >= competencia.getEquipos().size()) {
+                vista.mostrarMensaje("Índice inválido.");
+                return;
+            }
+        } catch (Exception ex) {
+            vista.mostrarMensaje("Índice inválido.");
+            return;
+        }
+
+        String nombre = vista.pedirTexto("Nombre del competidor:");
+        if (nombre == null || nombre.trim().isEmpty()) { vista.mostrarMensaje("Operación cancelada."); return; }
+        int edad = pedirEntero("Edad del competidor:");
+        String pais = vista.pedirTexto("País del competidor:");
+        if (pais == null || pais.trim().isEmpty()) { vista.mostrarMensaje("Operación cancelada."); return; }
+        int ranking = pedirEntero("Ranking mundial (número):");
+        double estatura = pedirDouble("Estatura (metros):");
+        double peso = pedirDouble("Peso (kg):");
+
+        Competidor c = new Competidor(nombre.trim(), edad, pais.trim(), ranking, estatura, peso);
+        competencia.getEquipos().get(idx).agregarCompetidor(c);
+        vista.mostrarMensaje("Competidor agregado al equipo " + competencia.getEquipos().get(idx).getNombre());
     }
 }
