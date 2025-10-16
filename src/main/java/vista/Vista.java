@@ -40,5 +40,25 @@ public class Vista {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 
+    public String elegirEquipoTexto(List<Equipo> equipos) {
+        if (equipos.isEmpty()) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < equipos.size(); i++) {
+            sb.append(i).append(". ").append(equipos.get(i).getNombre())
+              .append(" (").append(equipos.get(i).getPais()).append(")\n");
+        }
+        return sb.toString();
+    }
+
+    public String listarCompetidoresSimple(List<Equipo> equipos, int indiceEquipo) {
+        if (equipos.isEmpty() || indiceEquipo < 0 || indiceEquipo >= equipos.size()) return null;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < equipos.get(indiceEquipo).getCompetidores().size(); i++) {
+            sb.append(i).append(". ").append(equipos.get(indiceEquipo).getCompetidores().get(i).getNombre()).append("\n");
+        }
+        return sb.toString();
+    }
 }
 
