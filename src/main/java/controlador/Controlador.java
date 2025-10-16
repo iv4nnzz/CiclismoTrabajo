@@ -175,4 +175,19 @@ public class Controlador {
         vista.mostrarMensaje(detalles);
     }
     
+    private int pedirEntero(String mensaje) {
+        while (true) {
+            String resp = vista.pedirTexto(mensaje);
+            if (resp == null) { return 0; }
+            try { return Integer.parseInt(resp); } catch (Exception e) { vista.mostrarMensaje("Debe ingresar un número entero."); }
+        }
+    }
+
+    private double pedirDouble(String mensaje) {
+        while (true) {
+            String resp = vista.pedirTexto(mensaje);
+            if (resp == null) { return 0.0; }
+            try { return Double.parseDouble(resp); } catch (Exception e) { vista.mostrarMensaje("Debe ingresar un número válido (con punto si es decimal)."); }
+        }
+    }
 }
