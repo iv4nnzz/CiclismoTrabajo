@@ -43,7 +43,7 @@ public class Competencia {
         }
         return sb.toString();
     }
-    
+
     public void actualizarRankingsGlobal() {
         List<Competidor> todos = new ArrayList<>();
         for (Equipo e : equipos) {
