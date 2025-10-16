@@ -25,6 +25,7 @@ public class Controlador {
         while (seguir) {
             int opcion = vista.mostrarMenu();
 
+            // Usamos IF encadenados (if opcion == 1, if opcion == 2, ...) como pediste
             if (opcion == 1) {
                 manejarAgregarEquipo();
             } else if (opcion == 2) {
@@ -43,5 +44,15 @@ public class Controlador {
                 vista.mostrarMensaje("Opción inválida. Intente de nuevo.");
             }
         }
+    }
+
+    private void manejarAgregarEquipo() {
+        String nombre = vista.pedirTexto("Nombre del equipo:");
+        if (nombre == null || nombre.trim().isEmpty()) { vista.mostrarMensaje("Operación cancelada."); return; }
+        String pais = vista.pedirTexto("País del equipo:");
+        if (pais == null || pais.trim().isEmpty()) { vista.mostrarMensaje("Operación cancelada."); return; }
+        Equipo e = new Equipo(nombre.trim(), pais.trim());
+        competencia.agregarEquipo(e);
+        vista.mostrarMensaje("Equipo agregado: " + nombre);
     }
 }
