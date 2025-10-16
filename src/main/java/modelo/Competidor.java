@@ -38,4 +38,26 @@ public class Competidor extends Persona {
         this.puntos += puntosObtenidos;
     }
 
+    public void actualizarPuntos(int puntosObtenidos, boolean mostrarDetalle) {
+        this.puntos += puntosObtenidos;
+    }
+
+    public String obtenerDatos() {
+        return toString();
+    }
+
+    public String obtenerDatos(boolean conPuntos) {
+        if (conPuntos) {
+            return toString() + ", Ranking: " + rankingMundial + ", Puntos: " + puntos;
+        } else {
+            return toString();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return super.toString()
+             + ", Ranking mundial: " + rankingMundial
+             + ", Estatura: " + estatura + "m, Peso: " + peso + "kg";
+    }
 }
